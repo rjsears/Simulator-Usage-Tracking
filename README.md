@@ -5,7 +5,15 @@
 
 This is a node-red based flow that allows you to track simulator (or anything actually) usage based on a list of instructors and selected sim time. Once the instructor and time is selected, the timer starts a countdown. Within a specificed time the system can alert you via pushbullet (free) or SMS (via Twillo (paid)) that the sim session is over or is running late.
 
-Once the session is completed, all of the session information is written to a flat file for storage.<br><br>
+Once the session is completed, all of the session information is written to a flat file for storage.<br>
+
+# Installation
+To install, simply open your node-red interface and select import. Import the json file.
+
+# Requirements
+The only real requirement is the steelseries gauges by Gerrit Grunwald & Mark Crossley. If you want notifications, then you will also need the PushBullet or Twillio Node-Red nodes. 
+
+<br>
 
 ![alt tag](https://github.com/rjsears/Simulator-Usage-Tracking/blob/master/images/sim_tracking_node-red.png?raw=true)<br>
 ![alt tag](https://github.com/rjsears/Simulator-Usage-Tracking/blob/master/images/sim_tracking_main_interface.png?raw=true)<br>
@@ -17,3 +25,17 @@ Once the session is completed, all of the session information is written to a fl
 
 #TODO
 Add backend mysql/influs/?? time and session tracking. 
+
+
+## Authors
+
+* **Richard J. Sears** - *richard@sears.net* - [The RS Technical Group, Inc.](http://github.com/rjsears)
+
+## License
+
+This project is licensed under the MIT License - see the MIT License for details
+
+## Acknowledgments
+
+* [Gerrit Grunwald, Mark Crossley](https://github.com/HanSolo/SteelSeries-Canvas) - Steel Series Gauges
+* My amazing family that puts up with all of my coding projects!
