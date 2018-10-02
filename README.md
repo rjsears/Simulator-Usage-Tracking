@@ -9,7 +9,7 @@ Once the session is completed, all of the session information is written to a fl
 
 # Installation
 - Download and install steelseries gauges
-- Import json file into your Node-Red
+- Copy the JSON flow to your clipboard and then import into Node-RED using the <i>import From</i> > Clipboard (Ctrl-I) menu option
 - Make necessry changes for steelseries directory locations
 - Make necessry changes to your log file locations in the "Session Log File" nodes. Currently ~root/.node-red
 <br>
