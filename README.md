@@ -8,7 +8,11 @@ This is a node-red based flow that allows you to track simulator (or anything ac
 Once the session is completed, all of the session information is written to a flat file for storage.<br>
 
 # Installation
-To install, simply open your node-red interface and import the json file. Make necessary changes
+- Download and install steelseries gauges
+- Import json file into your Node-Red
+- Make necessry changes for steelseries directory locations
+- Make necessry changes to your log file locations in the "Session Log File" nodes. Currently ~root/.node-red
+<br>
 
 # Requirements
 The only real requirement is the steelseries gauges by Gerrit Grunwald & Mark Crossley. If you want notifications, then you will also need the PushBullet or Twillio Node-Red nodes. <br>
