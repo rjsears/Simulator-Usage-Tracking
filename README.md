@@ -14,6 +14,7 @@ To install, simply open your node-red interface and select import. Import the js
 The only real requirement is the steelseries gauges by Gerrit Grunwald & Mark Crossley. If you want notifications, then you will also need the PushBullet or Twillio Node-Red nodes. 
 
 <br>
+# Screen Shots
 
 ![alt tag](https://github.com/rjsears/Simulator-Usage-Tracking/blob/master/images/sim_tracking_node-red.png?raw=true)<br>
 ![alt tag](https://github.com/rjsears/Simulator-Usage-Tracking/blob/master/images/sim_tracking_main_interface.png?raw=true)<br>
@@ -21,11 +22,12 @@ The only real requirement is the steelseries gauges by Gerrit Grunwald & Mark Cr
 ![alt tag](https://github.com/rjsears/Simulator-Usage-Tracking/blob/master/images/sim_time_time_select.png?raw=true)<br>
 ![alt tag](https://github.com/rjsears/Simulator-Usage-Tracking/blob/master/images/sim_tracking_main_interface_running.png?raw=true)<br>
 
+<br><br>
 
 
-#TODO
-Add backend mysql/influs/?? time and session tracking. 
-
+## TODO
+* Add MySQL backen to track usage
+* Add E-Mail reporting
 
 ## Authors
 
