@@ -14,7 +14,7 @@ To install, simply open your node-red interface and import the json file. Make n
 The only real requirement is the steelseries gauges by Gerrit Grunwald & Mark Crossley. If you want notifications, then you will also need the PushBullet or Twillio Node-Red nodes. <br>
 For the steelseries gaugues, download them and untar them at a location that your node-red can access (typically ~user/.node-red/static) and then point to that directory in your widgets:<br>
 
-```json
+```js
 <script src="/myjs/steelseries/tween-min.js"></script>
 <script src="/myjs/steelseries/steelseries-min.js"></script>
 <script>
