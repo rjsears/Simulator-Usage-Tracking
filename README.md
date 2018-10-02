@@ -12,7 +12,7 @@ To install, simply open your node-red interface and import the json file. Make n
 
 # Requirements
 The only real requirement is the steelseries gauges by Gerrit Grunwald & Mark Crossley. If you want notifications, then you will also need the PushBullet or Twillio Node-Red nodes. <br>
-For the steelseries gaugues, download them and untar them at a location that your node-red can access (typically ~user/.node-red/static) and then point to that directory in your widgets. FOr example this is the js for the "Sim Gauge Tech View" gauge: <br>
+For the steelseries gaugues, download them and untar them at a location that your node-red can access (typically ~user/.node-red/static) and then point to that directory in your widgets. For example this is the js for the "Sim Gauge Tech View" gauge: <br>
 
 ```js
 <script src="/myjs/steelseries/tween-min.js"></script>
@@ -64,7 +64,7 @@ var radial4;
 
 <canvas id="canvasRadial4" width="401" height="401"></canvas>
 ```
-
+<br>
 # Screen Shots
 
 ![alt tag](https://github.com/rjsears/Simulator-Usage-Tracking/blob/master/images/sim_tracking_node-red.png?raw=true)<br>
