@@ -1,5 +1,5 @@
 # Simulator-Usage-Tracking
-Node-Red based simulator time tracking system
+> Node-Red based simulator time tracking system
 
 Version 1.0 (2018-10-02)
 Richard J. Sears (richard@sears.net)
