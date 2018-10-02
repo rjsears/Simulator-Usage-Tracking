@@ -8,10 +8,14 @@ This is a node-red based flow that allows you to track simulator (or anything ac
 Once the session is completed, all of the session information is written to a flat file for storage.<br>
 
 # Installation
-To install, simply open your node-red interface and select import. Import the json file.
+To install, simply open your node-red interface and import the json file. Make necessary changes
 
 # Requirements
-The only real requirement is the steelseries gauges by Gerrit Grunwald & Mark Crossley. If you want notifications, then you will also need the PushBullet or Twillio Node-Red nodes. 
+The only real requirement is the steelseries gauges by Gerrit Grunwald & Mark Crossley. If you want notifications, then you will also need the PushBullet or Twillio Node-Red nodes. <br>
+For the steelseries gaugues, download them and untar them at a location that your node-red can access (typically ~user/.node-red/static) and then point to that directory in your widgets:<br>
+
+- <script src="/myjs/steelseries/tween-min.js"></script>
+- <script src="/myjs/steelseries/steelseries-min.js"></script>
 
 # Screen Shots
 
