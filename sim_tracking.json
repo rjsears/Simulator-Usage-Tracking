@@ -1,0 +1,2015 @@
+[
+    {
+        "id": "ccf23d5e.abebd",
+        "type": "tab",
+        "label": "CE525 Time Control",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "7fdaf6a4.39c0e8",
+        "type": "ui_template",
+        "z": "ccf23d5e.abebd",
+        "group": "ec394520.8c13e8",
+        "name": "State buttons",
+        "order": 1,
+        "width": "6",
+        "height": "8",
+        "format": "<style>\ndiv.md-list-item-inner {\n    padding: 0;\n}\nmd-menu {\n    display: inline-grid;\n    width: 100%;\n}\nbutton.md-button {\n    border-radius: 5px !important;\n    margin: 20px 0 !important;\n    height: 50px;\n}\nbutton.md-button.running {\n    background: red !important;\n}\nbutton.md-button.stopped {\n    background: green !important;\n}\nbutton.md-button[disabled] {\n    background: grey !important;\n    cursor: not-allowed !important;\n}\n</style>\n\n<md-list-item>\n  <md-menu>\n    <md-button\n      ng-disabled=\"msg.payload.CE525.Break || msg.payload.CE525.Maint || msg.payload.CE525.Start\"\n    >\n      {{msg.payload.CE525.Instructor ? \"Instructor: \" + msg.payload.CE525.Instructor : \"Select Instructor\"}}\n    </md-button>\n    <md-menu-content width=\"4\">\n      <md-menu-item>\n        <md-button\n          ng-click=\"msg.payload.CE525.Instructor = 'Richard';\"\n        >\n          Richard\n        </md-button>\n      </md-menu-item>\n      <md-menu-item>\n        <md-button\n          ng-click=\"msg.payload.CE525.Instructor = 'Ryan';\"\n        >\n          Ryan\n        </md-button>\n      </md-menu-item>\n      <md-menu-item>\n        <md-button\n          ng-click=\"msg.payload.CE525.Instructor = 'Ted';\"\n        >\n          Ted\n        </md-button>\n      </md-menu-item>\n    </md-menu-content>\n  </md-menu>\n</md-list-item>\n\n<md-list-item>\n  <md-menu>\n    <md-button\n        ng-disabled=\"msg.payload.CE525.Break || msg.payload.CE525.Maint || msg.payload.CE525.Start\">\n          {{msg.payload.CE525.Session_Time ? \"Session Time: \" + msg.payload.CE525.Session_Time + \" hrs\" : \"Select Session Time\"}}\n    </md-button>\n    <md-menu-content width=\"4\">\n      <md-menu-item>\n        <md-button\n          ng-click=\"msg.payload.CE525.Session_Time = 0.5;\"\n        >\n          0.5 Hour\n        </md-button>\n      </md-menu-item>\n      <md-menu-item>\n        <md-button\n          ng-click=\"msg.payload.CE525.Session_Time = 1.0;\"\n        >\n          1.0 Hour\n        </md-button>\n      </md-menu-item>\n      <md-menu-item>\n        <md-button\n          ng-click=\"msg.payload.CE525.Session_Time = 1.5;\"\n        >\n          1.5 Hours\n        </md-button>\n      </md-menu-item>\n      <md-menu-item>\n        <md-button\n          ng-click=\"msg.payload.CE525.Session_Time = 2.0;\"\n        >\n          2.0 Hours\n        </md-button>\n      </md-menu-item>\n      <md-menu-item>\n        <md-button\n          ng-click=\"msg.payload.CE525.Session_Time = 2.5;\"\n        >\n          2.5 Hours\n        </md-button>\n      </md-menu-item>\n      <md-menu-item>\n        <md-button\n          ng-click=\"msg.payload.CE525.Session_Time = 3.0;\"\n        >\n          3.0 Hours\n        </md-button>\n      </md-menu-item>\n      <md-menu-item>\n        <md-button\n          ng-click=\"msg.payload.CE525.Session_Time = 3.5;\"\n        >\n          3.5 Hours\n        </md-button>\n      </md-menu-item>\n      <md-menu-item>\n        <md-button\n          ng-click=\"msg.payload.CE525.Session_Time = 4.0;\"\n        >\n          4.0 Hours\n        </md-button>\n      </md-menu-item>\n    </md-menu-content>\n  </md-menu>\n</md-list-item>\n\n<md-list-item>\n  <md-menu>\n    <md-button\n      ng-class=\"msg.payload.CE525.Start ? 'running' : 'stopped'\"\n      ng-disabled=\"!msg.payload.CE525.Instructor || !msg.payload.CE525.Session_Time || msg.payload.CE525.Break || msg.payload.CE525.Maint\"\n      ng-click=\"\n        msg.payload.CE525.Start = !msg.payload.CE525.Start;\n        msg.event = 'CE525 ' + msg.payload.CE525.Instructor + ' (' + msg.payload.CE525.Session_Time + ' hrs) ' + (msg.payload.CE525.Start? 'started': 'stopped');\n        msg.payload.CE525.Instructor = (msg.payload.CE525.Start? msg.payload.CE525.Instructor: null);\n        msg.payload.CE525.Session_Time = (msg.payload.CE525.Start? msg.payload.CE525.Session_Time: 0);\n        send(msg);\n      \"\n    >\n      {{msg.payload.CE525.Start? 'Session Stop': 'Session Start'}}\n    </md-button>\n  </md-menu>\n</md-list-item>\n\n<md-list-item>\n  <md-menu>\n    <md-button\n      ng-class=\"msg.payload.CE525.Break ? 'running' : 'stopped'\"\n      ng-disabled=\"!msg.payload.CE525.Start || msg.payload.CE525.Maint\"\n      ng-click=\"\n        msg.payload.CE525.Break = !msg.payload.CE525.Break;\n        msg.event = 'CE525 Break ' + (msg.payload.CE525.Break? 'started': 'ended');\n        send(msg);\n      \"\n    >\n      {{msg.payload.CE525.Break? 'Break Stop': 'Break Start'}}\n    </md-button>\n  </md-menu>\n</md-list-item>\n\n<md-list-item>\n  <md-menu>\n    <md-button\n      ng-class=\"msg.payload.CE525.Maint ? 'running' : 'stopped'\"\n      ng-disabled=\"!msg.payload.CE525.Start || msg.payload.CE525.Break\"\n      ng-click=\"\n        msg.payload.CE525.Maint = !msg.payload.CE525.Maint;\n        msg.event = 'CE525 Maint ' + (msg.payload.CE525.Maint? 'started': 'ended');\n        send(msg);\n      \"\n    >\n      {{msg.payload.CE525.Maint? 'Maint Stop': 'Maint Start'}}\n    </md-button>\n  </md-menu>\n</md-list-item>\n",
+        "storeOutMessages": true,
+        "fwdInMessages": false,
+        "templateScope": "local",
+        "x": 346.8571548461914,
+        "y": 85.85714149475098,
+        "wires": [
+            [
+                "7c4106f3.27cae8",
+                "dd85f860.025158",
+                "a6abecfc.d6bee"
+            ]
+        ]
+    },
+    {
+        "id": "7c4106f3.27cae8",
+        "type": "debug",
+        "z": "ccf23d5e.abebd",
+        "name": "",
+        "active": false,
+        "console": "false",
+        "complete": "false",
+        "x": 627,
+        "y": 96,
+        "wires": []
+    },
+    {
+        "id": "b7ea7274.dfb5e",
+        "type": "comment",
+        "z": "ccf23d5e.abebd",
+        "name": "Interactive Session buttons",
+        "info": "",
+        "x": 115,
+        "y": 30,
+        "wires": []
+    },
+    {
+        "id": "62b82d90.9ce6b4",
+        "type": "comment",
+        "z": "ccf23d5e.abebd",
+        "name": "Button Event logger",
+        "info": "",
+        "x": 125,
+        "y": 124,
+        "wires": []
+    },
+    {
+        "id": "dd85f860.025158",
+        "type": "function",
+        "z": "ccf23d5e.abebd",
+        "name": "State events",
+        "func": "// Get the event history or an empty array\nvar history = flow.get('CE525') || [];\nvar now = new Date().toLocaleString();\n//var now = Math.round(+new Date()/1000);\n\n// Add the new event to the head of the array\nhistory.unshift(now + '\\t' + msg.event);\nflow.set('CE525', history);\n\n// Return the array of events for displaying\nmsg.payload = history;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 420,
+        "y": 171,
+        "wires": [
+            [
+                "e59fc29e.0ecbf"
+            ]
+        ]
+    },
+    {
+        "id": "e59fc29e.0ecbf",
+        "type": "ui_template",
+        "z": "ccf23d5e.abebd",
+        "group": "16df6755.0155b9",
+        "name": "log table",
+        "order": 3,
+        "width": "6",
+        "height": "9",
+        "format": "<style>\nul.plain {\n    list-style-type: none;\n    padding-left: inherit;\n}\n</style>\n\n<ul class=\"plain\">\n    <li ng-repeat=\"event in msg.payload\">\n        {{event}}\n    </li>\n</ul>",
+        "storeOutMessages": false,
+        "fwdInMessages": false,
+        "templateScope": "local",
+        "x": 611,
+        "y": 173,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "35f0c04.85fc44",
+        "type": "inject",
+        "z": "ccf23d5e.abebd",
+        "name": "init states",
+        "topic": "",
+        "payload": "{\"CE525\":{\"Start\":false,\"Break\":false,\"Maint\":false}}",
+        "payloadType": "json",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "x": 121,
+        "y": 69,
+        "wires": [
+            [
+                "7fdaf6a4.39c0e8",
+                "2c5199d8.602086",
+                "54e883dd.d4b4ac",
+                "7f0f367c.2e3518"
+            ]
+        ]
+    },
+    {
+        "id": "2c5199d8.602086",
+        "type": "change",
+        "z": "ccf23d5e.abebd",
+        "name": "reset history",
+        "rules": [
+            {
+                "t": "delete",
+                "p": "CE525",
+                "pt": "flow"
+            },
+            {
+                "t": "set",
+                "p": "event",
+                "pt": "msg",
+                "to": "Flow initialized",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 159.28571319580078,
+        "y": 185.99999904632568,
+        "wires": [
+            [
+                "dd85f860.025158"
+            ]
+        ]
+    },
+    {
+        "id": "547f27d9.2a10f8",
+        "type": "link in",
+        "z": "ccf23d5e.abebd",
+        "name": "From State Button",
+        "links": [
+            "a6abecfc.d6bee"
+        ],
+        "x": 20,
+        "y": 245,
+        "wires": [
+            [
+                "364cf54f.6beb6a",
+                "8cbbb4a0.3d4f28",
+                "6d21d325.800eac",
+                "18767979.01dae7",
+                "3bf17938.eaf566",
+                "c4b6d565.94acc8",
+                "cb262f7c.f9d0f"
+            ]
+        ]
+    },
+    {
+        "id": "a6abecfc.d6bee",
+        "type": "link out",
+        "z": "ccf23d5e.abebd",
+        "name": "To Guage Control",
+        "links": [
+            "547f27d9.2a10f8",
+            "5d964c3e.4d0344"
+        ],
+        "x": 596,
+        "y": 20,
+        "wires": []
+    },
+    {
+        "id": "cef2b2f7.71996",
+        "type": "comment",
+        "z": "ccf23d5e.abebd",
+        "name": "Session Timer Gauge Controls",
+        "info": "",
+        "x": 245,
+        "y": 236,
+        "wires": []
+    },
+    {
+        "id": "54e883dd.d4b4ac",
+        "type": "link out",
+        "z": "ccf23d5e.abebd",
+        "name": "From Init States",
+        "links": [],
+        "x": 278.2857303619385,
+        "y": 145.57143115997314,
+        "wires": []
+    },
+    {
+        "id": "63cc5f3c.46714",
+        "type": "ui_template",
+        "z": "ccf23d5e.abebd",
+        "group": "2c662e9b.76e672",
+        "name": "Sim Gauge Tech View",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "format": "<script src=\"/myjs/steelseries/tween-min.js\"></script>\n<script src=\"/myjs/steelseries/steelseries-min.js\"></script>\n<script>\nvar radial4;\n    (function(scope){ \n        scope.$watch('msg', function(msg) {\n           if (typeof(msg.value) != \"undefined\") radial4.setValueAnimated(msg.value);\n           if (typeof(msg.threshold) != \"undefined\") radial4.setThreshold(msg.threshold);\n           if (typeof(msg.maxvalue) != \"undefined\")radial4.setMaxValue(msg.maxvalue);\n           if (typeof(msg.userLed) != \"undefined\") radial4.setUserLedOnOff(msg.userLed);\n        });\n    })(scope);\n\n    var sections = [steelseries.Section(-40, 5, 'rgba(220, 0, 0, 0.3)'),\n                        steelseries.Section(5, 10, 'rgba(255, 255, 0, 0.5)'),\n                        steelseries.Section(10, 240, 'rgba(0, 255, 0, 0.3)') ],\n\n            // Define one area\n    areas = [steelseries.Section(-40, 5, 'rgba(220, 0, 0, 0.3)')],\n\n    radial4 = new steelseries.Radial('canvasRadial4', {\n            gaugeType: steelseries.GaugeType.TYPE4,\n            size: 292,\n            section: sections,\n            //MaxValue: 240,\n            area: areas,\n            lcdDecimals: 0,\n            minValue: -30,\n            titleString: \"Sim Time Remaining\",\n            unitString: \"Minutes\",\n            threshold: 10,\n            thresholdRising: false,\n            userLedVisible: true,\n            userLed: true,\n            useOdometer: false,\n            lcdVisible: true,\n            trendVisible: false,\n        });\n                        \n    radial4.setFrameDesign(steelseries.FrameDesign.BLACK_METAL);\n    radial4.setBackgroundColor(steelseries.BackgroundColor.LIGHT_GRAY);\n    radial4.setValueAnimated(0);\n    radial4.setThreshold(10);\n    radial4.blinkUserLed(0);\n\n</script>\n\n<canvas id=\"canvasRadial4\" width=\"401\" height=\"401\"></canvas>\n\n\n",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "templateScope": "local",
+        "x": 1544.1427993774414,
+        "y": 334.5714178085327,
+        "wires": [
+            [
+                "18cb3639.9c927a"
+            ]
+        ]
+    },
+    {
+        "id": "6f6c2eb4.4f8dd",
+        "type": "function",
+        "z": "ccf23d5e.abebd",
+        "name": "Initial Session Time",
+        "func": "// This function takes the initial session time and sets our gauge's max value to this time.\n\nmsg.maxvalue=msg.payload;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 673.4285888671875,
+        "y": 279.00000381469727,
+        "wires": [
+            [
+                "63cc5f3c.46714",
+                "599483.cfaf5b7c",
+                "1c0c2a1e.ae2fa6"
+            ]
+        ]
+    },
+    {
+        "id": "ae9bd2bb.8b02",
+        "type": "switch",
+        "z": "ccf23d5e.abebd",
+        "name": "time left?",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "gt",
+                "v": "-30",
+                "vt": "num"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 1,
+        "x": 945.1427917480469,
+        "y": 443.2856845855713,
+        "wires": [
+            [
+                "c80b92a6.d7f48"
+            ]
+        ]
+    },
+    {
+        "id": "c80b92a6.d7f48",
+        "type": "change",
+        "z": "ccf23d5e.abebd",
+        "name": "-1 minute",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload - 1",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1028.1427917480469,
+        "y": 518.2856845855713,
+        "wires": [
+            [
+                "3b4d56eb.afd6fa",
+                "3c352460.38001c"
+            ]
+        ]
+    },
+    {
+        "id": "e27ebd99.3e09",
+        "type": "link out",
+        "z": "ccf23d5e.abebd",
+        "name": "decremented time",
+        "links": [
+            "5be89d80.98fb24"
+        ],
+        "x": 1210.1427917480469,
+        "y": 621.2856845855713,
+        "wires": []
+    },
+    {
+        "id": "5be89d80.98fb24",
+        "type": "link in",
+        "z": "ccf23d5e.abebd",
+        "name": "check time left",
+        "links": [
+            "e27ebd99.3e09"
+        ],
+        "x": 833.1427917480469,
+        "y": 468.2856845855713,
+        "wires": [
+            [
+                "ae9bd2bb.8b02"
+            ]
+        ]
+    },
+    {
+        "id": "3b4d56eb.afd6fa",
+        "type": "delay",
+        "z": "ccf23d5e.abebd",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "1",
+        "timeoutUnits": "minutes",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 1033.1427917480469,
+        "y": 579.2856845855713,
+        "wires": [
+            [
+                "e27ebd99.3e09"
+            ]
+        ]
+    },
+    {
+        "id": "a8ce1073.52976",
+        "type": "change",
+        "z": "ccf23d5e.abebd",
+        "name": "reset",
+        "rules": [
+            {
+                "t": "set",
+                "p": "reset",
+                "pt": "msg",
+                "to": "true",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 877.1427917480469,
+        "y": 525.2856845855713,
+        "wires": [
+            [
+                "3b4d56eb.afd6fa"
+            ]
+        ]
+    },
+    {
+        "id": "b360da95.909b38",
+        "type": "change",
+        "z": "ccf23d5e.abebd",
+        "name": "delay",
+        "rules": [
+            {
+                "t": "set",
+                "p": "delay",
+                "pt": "msg",
+                "to": "1",
+                "tot": "num"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 884.1427917480469,
+        "y": 568.2856845855713,
+        "wires": [
+            [
+                "3b4d56eb.afd6fa"
+            ]
+        ]
+    },
+    {
+        "id": "3c352460.38001c",
+        "type": "change",
+        "z": "ccf23d5e.abebd",
+        "name": "Output to Gauge",
+        "rules": [
+            {
+                "t": "set",
+                "p": "time_remaining",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "sim_time_remaining",
+                "pt": "flow",
+                "to": "time_remaining",
+                "tot": "flow"
+            },
+            {
+                "t": "set",
+                "p": "value",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1237.1427917480469,
+        "y": 518.2856845855713,
+        "wires": [
+            [
+                "63cc5f3c.46714",
+                "da353055.7c50c",
+                "84ee2d8a.083ad",
+                "599483.cfaf5b7c",
+                "1c0c2a1e.ae2fa6"
+            ]
+        ]
+    },
+    {
+        "id": "364cf54f.6beb6a",
+        "type": "function",
+        "z": "ccf23d5e.abebd",
+        "name": "Gauge Start Control",
+        "func": "/*\nThis function initiates the start sequence. We check to see if a session is alreay running and if not\nand if we are not in break or maint status, we start the sim session and set the session time.\n\nmsg.payload.CE525.Start, Break & Maint return false on startup and true if clicked\n\n*/\n\n\nvar session_start = (msg.payload.CE525.Start);\nvar break_status = (msg.payload.CE525.Break);\nvar maint_status = (msg.payload.CE525.Maint);\nvar session_time = (msg.payload.CE525.Session_Time);\nvar session_running = flow.get(\"ce525_session_running\");\n\n//var session_time_minutes = 2 //UNCOMMENT FOR TESTING\nvar session_time_minutes = session_time*60; //COMMENT FOR TESTING\n\nif (session_start === true && break_status === false && maint_status === false && session_running === false )\n{\n    flow.set(\"ce525_session_running\",true);\n    flow.set(\"ce525_session_break\",false);\n    flow.set(\"ce525_session_maint\",false);\n    var session_start_minutes = {payload: session_time_minutes};\n    var start_count_timer = {payload: 0}; // This sets the count up timers to 0 when the session starts. \n                                        // needs to go the \"Time Left\" input on each count UP timer.\n    return [session_start_minutes, start_count_timer];\n} else {\n    return [null,null];\n}\n",
+        "outputs": "2",
+        "noerr": 0,
+        "x": 266,
+        "y": 284,
+        "wires": [
+            [
+                "ae9bd2bb.8b02",
+                "6f6c2eb4.4f8dd"
+            ],
+            [
+                "cc641d4.69d7ee"
+            ]
+        ],
+        "outputLabels": [
+            "",
+            "Output to Break Timer \"Time Left\" Input"
+        ]
+    },
+    {
+        "id": "8cbbb4a0.3d4f28",
+        "type": "function",
+        "z": "ccf23d5e.abebd",
+        "name": "Gauge Stop Control",
+        "func": "// This function \"stops\" the sim session and resets the gauge needle to '0'\n// with a min of '0' and a max of '60' and shuts off the userLed.\n\nvar session_start = (msg.payload.CE525.Start);\n\nif (session_start === false)\n{\n    flow.set(\"ce525_session_running\",false);\n    flow.set(\"ce525_session_break\",false);\n    flow.set(\"ce525_session_maint\",false);\n    flow.set(\"break_count_up_started\",false);\n    flow.set(\"maint_count_up_started\",false);\n    var reset_gauge = {payload: 0, value: 0, maxvalue: 120, userLed: \"false\" };\n    var timer_reset = { reset: true, payload: 0 };\n    var session_ended = {payload: \"CE525 Sim Session Has Ended\"};\n    return [reset_gauge, timer_reset, session_ended];\n} else {\n    return [null, null, null];\n}",
+        "outputs": "3",
+        "noerr": 0,
+        "x": 269,
+        "y": 343,
+        "wires": [
+            [
+                "63cc5f3c.46714",
+                "599483.cfaf5b7c",
+                "1c0c2a1e.ae2fa6"
+            ],
+            [
+                "a8ce1073.52976",
+                "c4f08de1.e54a2",
+                "2f503b75.3b6c04"
+            ],
+            [
+                "ca57873b.f32118"
+            ]
+        ]
+    },
+    {
+        "id": "6d21d325.800eac",
+        "type": "function",
+        "z": "ccf23d5e.abebd",
+        "name": "Session Break Start",
+        "func": "var session_running = flow.get(\"ce525_session_running\");\nvar session_break = (msg.payload.CE525.Break);\n\n\nif (session_running === true && session_break === true)\n{\n    flow.set(\"ce525_session_break\",true);\n    var session_break = {payload: true };\n    return session_break;\n} else {\n    return null;\n}",
+        "outputs": "1",
+        "noerr": 0,
+        "x": 184,
+        "y": 480,
+        "wires": [
+            [
+                "a8ce1073.52976",
+                "2c19c3a4.aa7f4c",
+                "c4f08de1.e54a2"
+            ]
+        ]
+    },
+    {
+        "id": "18767979.01dae7",
+        "type": "function",
+        "z": "ccf23d5e.abebd",
+        "name": "Session Break Stop",
+        "func": "var session_running = flow.get(\"ce525_session_running\");\nvar session_break = (msg.payload.CE525.Break);\n\nif (session_running === true && session_break === false)\n{\n    var session_break = {payload: false };\n    return session_break;\n} else {\n    return null;\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 176,
+        "y": 523,
+        "wires": [
+            [
+                "6086f9ac.bff078",
+                "2c19c3a4.aa7f4c"
+            ]
+        ]
+    },
+    {
+        "id": "6086f9ac.bff078",
+        "type": "function",
+        "z": "ccf23d5e.abebd",
+        "name": "Resume from Break Control",
+        "func": "var session_running = flow.get(\"ce525_session_running\");\nvar break_stop = flow.get(\"ce525_session_break\");\n\n\nif (session_running === true && break_stop  === false)\n{\n    var sim_time_remaining = flow.get(\"sim_time_remaining\");\n    var sim_time_used = flow.get(\"sim_time_currently_used\");\n    return [{payload: sim_time_remaining}, {payload: sim_time_used}];\n}   else {\n    return [null,null];\n}\n\n\n",
+        "outputs": "2",
+        "noerr": 0,
+        "x": 207,
+        "y": 567,
+        "wires": [
+            [
+                "b360da95.909b38"
+            ],
+            [
+                "6f3178da.a355e8"
+            ]
+        ]
+    },
+    {
+        "id": "41dc4c15.fae4d4",
+        "type": "function",
+        "z": "ccf23d5e.abebd",
+        "name": "Resume from Maint Control",
+        "func": "var session_running = flow.get(\"ce525_session_running\");\nvar maint_stop = flow.get(\"ce525_session_maint\");\n\n\nif (session_running === true && maint_stop  === false)\n{\n    var sim_time_remaining = flow.get(\"sim_time_remaining\");\n    var sim_time_used = flow.get(\"sim_time_currently_used\");\n    return [{payload: sim_time_remaining}, {payload: sim_time_used}];\n}   else {\n    return [null,null];\n}",
+        "outputs": "2",
+        "noerr": 0,
+        "x": 192,
+        "y": 746,
+        "wires": [
+            [
+                "b360da95.909b38"
+            ],
+            [
+                "6f3178da.a355e8"
+            ]
+        ]
+    },
+    {
+        "id": "3bf17938.eaf566",
+        "type": "function",
+        "z": "ccf23d5e.abebd",
+        "name": "Session Maint Start",
+        "func": "var session_running = flow.get(\"ce525_session_running\");\nvar session_maint = (msg.payload.CE525.Maint);\n\n\nif (session_running === true && session_maint === true)\n{\n    flow.set(\"ce525_session_maint\",true);\n    var session_maint = {payload: true };\n    return session_maint;\n} else {\n    return null;\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 170,
+        "y": 654,
+        "wires": [
+            [
+                "a8ce1073.52976",
+                "62d53df4.691714",
+                "c4f08de1.e54a2"
+            ]
+        ]
+    },
+    {
+        "id": "c4b6d565.94acc8",
+        "type": "function",
+        "z": "ccf23d5e.abebd",
+        "name": "Session Maint Stop",
+        "func": "var session_running = flow.get(\"ce525_session_running\");\nvar maint_break = (msg.payload.CE525.Maint);\nvar session_break = (msg.payload.CE525.Break);\n\nif (session_running === true && maint_break === false && session_break === false)\n{\n    var session_maint = { payload: false };\n    return session_maint;\n} else {\n    return null;\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 164,
+        "y": 699,
+        "wires": [
+            [
+                "41dc4c15.fae4d4",
+                "62d53df4.691714"
+            ]
+        ]
+    },
+    {
+        "id": "da353055.7c50c",
+        "type": "function",
+        "z": "ccf23d5e.abebd",
+        "name": "Session Ending Soon?",
+        "func": "// Set this to the number of minutes before the sim session ends that you\n// would like to notified that the session is about to end.\nvar warning_minutes = flow.get(\"session_end_warning_minutes\");\n\nif (msg.value == warning_minutes)\n{\n    var warning_message = {payload: \"CE525 Sim Session Should be Ending in \" + warning_minutes +\" Minutes\"};\n    return [warning_message];\n} else {\n    return null;\n}",
+        "outputs": "1",
+        "noerr": 0,
+        "x": 1137,
+        "y": 246,
+        "wires": [
+            [
+                "3e07dfe0.9d6ec"
+            ]
+        ]
+    },
+    {
+        "id": "8cedb0f2.6169e",
+        "type": "twilio out",
+        "z": "ccf23d5e.abebd",
+        "twilio": "5b0875de.d408bc",
+        "twilioType": "sms",
+        "url": "",
+        "number": "18584142908",
+        "name": "Richard's Cell",
+        "x": 1590,
+        "y": 32,
+        "wires": []
+    },
+    {
+        "id": "9143fe41.3272a",
+        "type": "twilio out",
+        "z": "ccf23d5e.abebd",
+        "twilio": "5b0875de.d408bc",
+        "twilioType": "sms",
+        "url": "",
+        "number": "18588805709",
+        "name": "Ryan's Cell",
+        "x": 1606.5,
+        "y": 74,
+        "wires": []
+    },
+    {
+        "id": "c948407a.06dda",
+        "type": "twilio out",
+        "z": "ccf23d5e.abebd",
+        "twilio": "5b0875de.d408bc",
+        "twilioType": "sms",
+        "url": "",
+        "number": "18587170066",
+        "name": "Ted's Cell",
+        "x": 1605.5,
+        "y": 115,
+        "wires": []
+    },
+    {
+        "id": "1bc2d1c2.d737be",
+        "type": "twilio out",
+        "z": "ccf23d5e.abebd",
+        "twilio": "5b0875de.d408bc",
+        "twilioType": "sms",
+        "url": "",
+        "number": "16198896251",
+        "name": "Noel's Cell",
+        "x": 1604.5,
+        "y": 158,
+        "wires": []
+    },
+    {
+        "id": "825f97a0.ec44f8",
+        "type": "pushbullet",
+        "z": "ccf23d5e.abebd",
+        "config": "6254174c.23f288",
+        "pushtype": "note",
+        "title": "CE525 Sim Message",
+        "chan": "",
+        "name": "CE525 Sim Session Messages",
+        "x": 1552,
+        "y": 212,
+        "wires": []
+    },
+    {
+        "id": "ca57873b.f32118",
+        "type": "link out",
+        "z": "ccf23d5e.abebd",
+        "name": "In from Gauge Stop Control #3 output",
+        "links": [
+            "739edf88.0991a"
+        ],
+        "x": 311,
+        "y": 419,
+        "wires": []
+    },
+    {
+        "id": "739edf88.0991a",
+        "type": "link in",
+        "z": "ccf23d5e.abebd",
+        "name": "Out to Sim Session Manual Ended PB Notification",
+        "links": [
+            "ca57873b.f32118"
+        ],
+        "x": 985,
+        "y": 114,
+        "wires": [
+            [
+                "3e07dfe0.9d6ec"
+            ]
+        ]
+    },
+    {
+        "id": "85d7cbf.8585338",
+        "type": "comment",
+        "z": "ccf23d5e.abebd",
+        "name": "Count Down Timer Control",
+        "info": "",
+        "x": 890.1427917480469,
+        "y": 393.2856845855713,
+        "wires": []
+    },
+    {
+        "id": "4b63d4f2.e5509c",
+        "type": "comment",
+        "z": "ccf23d5e.abebd",
+        "name": "Notifications",
+        "info": "",
+        "x": 1099,
+        "y": 25,
+        "wires": []
+    },
+    {
+        "id": "6dcf7df3.fd89a4",
+        "type": "file",
+        "z": "ccf23d5e.abebd",
+        "name": "Session Log File",
+        "filename": "/root/.node-red/ce525_history",
+        "appendNewline": true,
+        "createDir": false,
+        "overwriteFile": "false",
+        "x": 655.0317687988281,
+        "y": 1305.0475645065308,
+        "wires": []
+    },
+    {
+        "id": "cb262f7c.f9d0f",
+        "type": "function",
+        "z": "ccf23d5e.abebd",
+        "name": "Session Start & Stop Log",
+        "func": "var session_start = (msg.payload.CE525.Start);\nvar break_status = (msg.payload.CE525.Break);\n//var break_status = flow.get(\"ce525_session_break\");\nvar maint_status = (msg.payload.CE525.Maint);\nvar session_time = (msg.payload.CE525.Session_Time);\nvar session_time_minutes = session_time*60;\nvar session_running = flow.get(\"ce525_session_running\");\nvar was_start_record_written = flow.get(\"start_record_written\");\nvar session_time_minutes = session_time*60;\nvar total_sim_time_minutes = flow.get(\"total_sim_time_used\");\nvar session_id = flow.get(\"session_id\");\nvar total_break_time_used = flow.get(\"total_break_time_used\");\nvar total_maint_time_used = flow.get(\"total_maint_time_used\");\n\nfunction roundUp(num, precision) {\n  return Math.ceil(num * precision) / precision\n}\n\nif (session_start === true && break_status === false && maint_status === false && session_running === true && was_start_record_written === false )\n{\n    var now_start = Math.round(+new Date()/1000);\n    flow.set(\"now_start\",now_start);\n    \n    var session_start_record = { payload: {Session_ID: session_id, Instructor: msg.payload.CE525.Instructor, \n                                Scheduled_Time: session_time_minutes, \n                                Session_Start_Time: now_start, Session: \"START\" } };\n    \n    flow.set (\"start_record_written\",true);\n    return [session_start_record,null];\n    \n} else if (session_start === false && break_status === false && maint_status === false && session_running === false)\n{\n    var now_start = flow.get(\"now_start\");\n    var now_stop = Math.round(+new Date()/1000);\n    var total_session_time = (now_stop - now_start)/60;\n    var fixed_total_session_time = roundUp(total_session_time,1);\n    \n    var session_stop_record = { payload: {Session_ID: session_id, \n                                Session_Stop_Time: now_stop, Session: \"STOP\", \n                                Total_Client_Time: total_sim_time_minutes, \n                                Total_Sim_Time: fixed_total_session_time,\n                                Total_Break_Time: total_break_time_used,\n                                Total_Maint_Time: total_maint_time_used\n    } };\n    \n    flow.set (\"start_record_written\",false);\n    var new_session_id = (session_id + 1);\n    return [session_stop_record, {payload: new_session_id}];\n    \n} else {\n    return [null,null];\n}\n\n\n",
+        "outputs": "2",
+        "noerr": 0,
+        "x": 174.85716247558594,
+        "y": 1238.999984741211,
+        "wires": [
+            [
+                "6dcf7df3.fd89a4",
+                "c6a8ce5d.2f746"
+            ],
+            [
+                "3de5dd76.2656a2",
+                "1cbb35c1.97b4da"
+            ]
+        ]
+    },
+    {
+        "id": "c6a8ce5d.2f746",
+        "type": "debug",
+        "z": "ccf23d5e.abebd",
+        "name": "",
+        "active": false,
+        "console": "false",
+        "complete": "payload",
+        "x": 602.1428909301758,
+        "y": 1231.2855854034424,
+        "wires": []
+    },
+    {
+        "id": "2c19c3a4.aa7f4c",
+        "type": "function",
+        "z": "ccf23d5e.abebd",
+        "name": "Session Individual Breaks Log",
+        "func": "var break_active = flow.get(\"ce525_session_break\");\nvar session_id = flow.get(\"session_id\");\n\nfunction roundUp(num, precision) {\n  return Math.ceil(num * precision) / precision\n}\n\n\nif (msg.payload === true)\n{\n    var break_start = Math.round(+new Date()/1000);\n    flow.set(\"break_start\",break_start);\n    var now = Math.round(+new Date()/1000);\n    var break_start_record = { payload: {Session_ID: session_id, Break_Start: now, Break: \"START\" } };\n    return [break_start_record,null];\n    \n} else if (msg.payload === false && break_active === true)\n{\n    var break_start = flow.get(\"break_start\");\n    var break_stop = Math.round(+new Date()/1000);\n    var total_break_time = (break_stop - break_start)/60;\n    var fixed_total_break_time = roundUp(total_break_time,1);\n    var now = Math.round(+new Date()/1000);\n    \n    var break_stop_record = { payload: {Session_ID: session_id, \n                            Break_Stop: now, Break: \"STOP\", \n                            Total_Break_Time: fixed_total_break_time } };\n                            \n    flow.set(\"ce525_session_break\",false);\n    var break_time = { payload: fixed_total_break_time }; \n    return [break_stop_record,break_time];\n} else {\n    return [null,null];\n}",
+        "outputs": "2",
+        "noerr": 0,
+        "x": 198.85716247558594,
+        "y": 1277.999984741211,
+        "wires": [
+            [
+                "6dcf7df3.fd89a4"
+            ],
+            [
+                "7b838086.a0065"
+            ]
+        ]
+    },
+    {
+        "id": "62d53df4.691714",
+        "type": "function",
+        "z": "ccf23d5e.abebd",
+        "name": "Individual Maintenance Breaks Log",
+        "func": "var maint_active = flow.get(\"ce525_session_maint\");\nvar session_id = flow.get(\"session_id\");\n\nfunction roundUp(num, precision) {\n  return Math.ceil(num * precision) / precision\n}\n\nif (msg.payload === true)\n{\n    var maint_start = Math.round(+new Date()/1000);\n    flow.set(\"maint_start\",maint_start);\n    var now = Math.round(+new Date()/1000);\n    var maint_start_record = { payload: {Session_ID: session_id, Maint_Start: now, Maint: \"START\" } };\n    return maint_start_record;\n    \n} else if (msg.payload === false && maint_active === true)\n{\n    var maint_start = flow.get(\"maint_start\");\n    var maint_stop = Math.round(+new Date()/1000);\n    var total_maint_time = (maint_stop - maint_start)/60;\n    var fixed_total_maint_time = roundUp(total_maint_time,1);\n    var now = Math.round(+new Date()/1000);\n    \n    var maint_stop_record = { payload: {Session_ID: session_id, \n                            Maint_Stop: now, Maint: \"STOP\", \n                            Total_Maint_Time: fixed_total_maint_time } };\n                            \n    flow.set(\"ce525_session_maint\",false);\n    return maint_stop_record;\n} else {\n    return null;\n}\n    ",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 206.85716247558594,
+        "y": 1314.999984741211,
+        "wires": [
+            [
+                "6dcf7df3.fd89a4"
+            ]
+        ]
+    },
+    {
+        "id": "b3161e3.8bba1e",
+        "type": "comment",
+        "z": "ccf23d5e.abebd",
+        "name": "Logging",
+        "info": "",
+        "x": 123.85716247558594,
+        "y": 1192.999984741211,
+        "wires": []
+    },
+    {
+        "id": "cc641d4.69d7ee",
+        "type": "switch",
+        "z": "ccf23d5e.abebd",
+        "name": "time left?",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "gt",
+                "v": "-1",
+                "vt": "num"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 1,
+        "x": 900.1427917480469,
+        "y": 732.2856845855713,
+        "wires": [
+            [
+                "97ae23a.51fdde"
+            ]
+        ]
+    },
+    {
+        "id": "97ae23a.51fdde",
+        "type": "change",
+        "z": "ccf23d5e.abebd",
+        "name": "+1 minute",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload + 1",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 940.1427917480469,
+        "y": 772.2856845855713,
+        "wires": [
+            [
+                "60cd3085.e4d59",
+                "3d4b9911.5a8306"
+            ]
+        ]
+    },
+    {
+        "id": "4c044d9c.348094",
+        "type": "link out",
+        "z": "ccf23d5e.abebd",
+        "name": "decremented time",
+        "links": [
+            "ed78cf5e.25903"
+        ],
+        "x": 1115.1427917480469,
+        "y": 852.2856845855713,
+        "wires": []
+    },
+    {
+        "id": "ed78cf5e.25903",
+        "type": "link in",
+        "z": "ccf23d5e.abebd",
+        "name": "check time left",
+        "links": [
+            "4c044d9c.348094"
+        ],
+        "x": 745.1427917480469,
+        "y": 812.2856845855713,
+        "wires": [
+            [
+                "cc641d4.69d7ee"
+            ]
+        ]
+    },
+    {
+        "id": "60cd3085.e4d59",
+        "type": "delay",
+        "z": "ccf23d5e.abebd",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "1",
+        "timeoutUnits": "minutes",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 1001.1427917480469,
+        "y": 832.2856845855713,
+        "wires": [
+            [
+                "4c044d9c.348094"
+            ]
+        ]
+    },
+    {
+        "id": "c4f08de1.e54a2",
+        "type": "change",
+        "z": "ccf23d5e.abebd",
+        "name": "reset",
+        "rules": [
+            {
+                "t": "set",
+                "p": "reset",
+                "pt": "msg",
+                "to": "true",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 810.1427917480469,
+        "y": 872.2856845855713,
+        "wires": [
+            [
+                "60cd3085.e4d59"
+            ]
+        ]
+    },
+    {
+        "id": "6f3178da.a355e8",
+        "type": "change",
+        "z": "ccf23d5e.abebd",
+        "name": "delay",
+        "rules": [
+            {
+                "t": "set",
+                "p": "delay",
+                "pt": "msg",
+                "to": "1",
+                "tot": "num"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 810.1427917480469,
+        "y": 912.2856845855713,
+        "wires": [
+            [
+                "60cd3085.e4d59"
+            ]
+        ]
+    },
+    {
+        "id": "3d4b9911.5a8306",
+        "type": "change",
+        "z": "ccf23d5e.abebd",
+        "name": "Total Sim Time Output to Variable",
+        "rules": [
+            {
+                "t": "set",
+                "p": "time_remaining1",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "sim_time_currently_used",
+                "pt": "flow",
+                "to": "time_remaining1",
+                "tot": "flow"
+            },
+            {
+                "t": "set",
+                "p": "total_sim_time_used",
+                "pt": "flow",
+                "to": "time_remaining1",
+                "tot": "flow"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1169.1427917480469,
+        "y": 731.2856845855713,
+        "wires": [
+            [
+                "f5c33a5b.7b4b18"
+            ]
+        ]
+    },
+    {
+        "id": "84ee2d8a.083ad",
+        "type": "debug",
+        "z": "ccf23d5e.abebd",
+        "name": "",
+        "active": false,
+        "console": "false",
+        "complete": "false",
+        "x": 1427.1427917480469,
+        "y": 573.2856845855713,
+        "wires": []
+    },
+    {
+        "id": "f5c33a5b.7b4b18",
+        "type": "debug",
+        "z": "ccf23d5e.abebd",
+        "name": "",
+        "active": false,
+        "console": "false",
+        "complete": "false",
+        "x": 1446.1427917480469,
+        "y": 773.2856845855713,
+        "wires": []
+    },
+    {
+        "id": "37469e4c.e8c9c2",
+        "type": "comment",
+        "z": "ccf23d5e.abebd",
+        "name": "Count Up Timer (Total Active Sim Session Time)",
+        "info": "This is the active sim time - ie actual sim time\nnot counting breaks and maintenance stops.",
+        "x": 955.1427917480469,
+        "y": 682.2856845855713,
+        "wires": []
+    },
+    {
+        "id": "7f0f367c.2e3518",
+        "type": "file in",
+        "z": "ccf23d5e.abebd",
+        "name": "Read New Session ID",
+        "filename": "/root/.node-red/ce525_session_id",
+        "format": "utf8",
+        "chunk": false,
+        "sendError": false,
+        "x": 261.4920654296875,
+        "y": 959.1429443359375,
+        "wires": [
+            [
+                "ecc4bab4.2f5b28",
+                "cb995819.e14b38"
+            ]
+        ]
+    },
+    {
+        "id": "ecc4bab4.2f5b28",
+        "type": "debug",
+        "z": "ccf23d5e.abebd",
+        "name": "",
+        "active": false,
+        "console": "false",
+        "complete": "false",
+        "x": 372.92060470581055,
+        "y": 884.5715198516846,
+        "wires": []
+    },
+    {
+        "id": "f0e170cb.df091",
+        "type": "change",
+        "z": "ccf23d5e.abebd",
+        "name": "Set Session ID Globally",
+        "rules": [
+            {
+                "t": "set",
+                "p": "session_id",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 468.63487243652344,
+        "y": 1004.4285535812378,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "3de5dd76.2656a2",
+        "type": "file",
+        "z": "ccf23d5e.abebd",
+        "name": "Write New Session ID",
+        "filename": "/root/.node-red/ce525_session_id",
+        "appendNewline": false,
+        "createDir": false,
+        "overwriteFile": "true",
+        "x": 675.7143173217773,
+        "y": 1367.1427612304688,
+        "wires": []
+    },
+    {
+        "id": "1cbb35c1.97b4da",
+        "type": "delay",
+        "z": "ccf23d5e.abebd",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "1",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 169.20638275146484,
+        "y": 885.714183807373,
+        "wires": [
+            [
+                "7f0f367c.2e3518"
+            ]
+        ]
+    },
+    {
+        "id": "cb995819.e14b38",
+        "type": "function",
+        "z": "ccf23d5e.abebd",
+        "name": "Convert (str) to (int)",
+        "func": "var session_id = { payload: parseInt(msg.payload)};\nreturn session_id;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 250.20632934570312,
+        "y": 1053.9998950958252,
+        "wires": [
+            [
+                "f0e170cb.df091",
+                "882039d4.8fb668"
+            ]
+        ]
+    },
+    {
+        "id": "882039d4.8fb668",
+        "type": "debug",
+        "z": "ccf23d5e.abebd",
+        "name": "",
+        "active": false,
+        "console": "false",
+        "complete": "false",
+        "x": 507.7777557373047,
+        "y": 1060.1429605484009,
+        "wires": []
+    },
+    {
+        "id": "46c2ff1e.97468",
+        "type": "comment",
+        "z": "ccf23d5e.abebd",
+        "name": "Get Session ID",
+        "info": "",
+        "x": 176.920654296875,
+        "y": 850.7142543792725,
+        "wires": []
+    },
+    {
+        "id": "9356f85c.ecb508",
+        "type": "config",
+        "z": "ccf23d5e.abebd",
+        "name": "Notification Configuration",
+        "properties": [
+            {
+                "p": "sms_alerts",
+                "pt": "flow",
+                "to": "false",
+                "tot": "bool"
+            },
+            {
+                "p": "pushbullet_alerts",
+                "pt": "flow",
+                "to": "false",
+                "tot": "bool"
+            },
+            {
+                "p": "alert_rjs_cell",
+                "pt": "flow",
+                "to": "true",
+                "tot": "bool"
+            },
+            {
+                "p": "alert_ryan_cell",
+                "pt": "flow",
+                "to": "true",
+                "tot": "bool"
+            },
+            {
+                "p": "alert_ted_cell",
+                "pt": "flow",
+                "to": "true",
+                "tot": "bool"
+            },
+            {
+                "p": "alert_noel_cell",
+                "pt": "flow",
+                "to": "false",
+                "tot": "bool"
+            },
+            {
+                "p": "session_end_warning_minutes",
+                "pt": "flow",
+                "to": "5",
+                "tot": "num"
+            }
+        ],
+        "active": true,
+        "x": 1101,
+        "y": 68,
+        "wires": []
+    },
+    {
+        "id": "3e07dfe0.9d6ec",
+        "type": "function",
+        "z": "ccf23d5e.abebd",
+        "name": "PB & SMS Alert Control",
+        "func": "var sendTo = []\n\nvar sms_alerts_active = flow.get(\"sms_alerts\");\nvar pb_alerts_active = flow.get(\"pushbullet_alerts\");\nsendTo.push(sms_alerts_active===true ? msg:null);\nsendTo.push(pb_alerts_active===true ? msg:null);\n\nnode.send(sendTo);\n",
+        "outputs": "2",
+        "noerr": 0,
+        "x": 1150,
+        "y": 153,
+        "wires": [
+            [
+                "edd6cc75.1d6b3"
+            ],
+            [
+                "825f97a0.ec44f8"
+            ]
+        ],
+        "outputLabels": [
+            "SMS Alerts",
+            "PB Alerts"
+        ]
+    },
+    {
+        "id": "edd6cc75.1d6b3",
+        "type": "function",
+        "z": "ccf23d5e.abebd",
+        "name": "Staff Cell Phones",
+        "func": "var sendTo = []\nvar alert_rjs_cell = flow.get(\"alert_rjs_cell\");\nvar alert_ryan_cell = flow.get(\"alert_ryan_cell\");\nvar alert_ted_cell = flow.get(\"alert_ted_cell\");\nvar alert_noel_cell = flow.get(\"alert_noel_cell\");\n\nsendTo.push(alert_rjs_cell===true? msg:null);\nsendTo.push(alert_ryan_cell===true? msg:null);\nsendTo.push(alert_ted_cell===true? msg:null);\nsendTo.push(alert_noel_cell===true? msg:null);\n\nreturn sendTo;",
+        "outputs": "4",
+        "noerr": 0,
+        "x": 1367,
+        "y": 78,
+        "wires": [
+            [
+                "8cedb0f2.6169e"
+            ],
+            [
+                "9143fe41.3272a"
+            ],
+            [
+                "c948407a.06dda"
+            ],
+            [
+                "1bc2d1c2.d737be"
+            ]
+        ],
+        "outputLabels": [
+            "To Richard Cell",
+            "To Ryan Cell",
+            "To Ted Cell",
+            "To Noel Cell"
+        ]
+    },
+    {
+        "id": "2a06ab13.588234",
+        "type": "comment",
+        "z": "ccf23d5e.abebd",
+        "name": "ToDo",
+        "info": "Confirm button on stop session\nRedo outbound SMS system (??) Maybe...?",
+        "x": 823.3333587646484,
+        "y": 34.44454002380371,
+        "wires": []
+    },
+    {
+        "id": "7b838086.a0065",
+        "type": "file",
+        "z": "ccf23d5e.abebd",
+        "name": "Track Session Break Times",
+        "filename": "/root/.node-red/ce525-break-times",
+        "appendNewline": true,
+        "createDir": false,
+        "overwriteFile": "false",
+        "x": 371.26990509033203,
+        "y": 1170.4762554168701,
+        "wires": []
+    },
+    {
+        "id": "b2e5ff45.1a9de",
+        "type": "switch",
+        "z": "ccf23d5e.abebd",
+        "name": "time left?",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "gt",
+                "v": "-1",
+                "vt": "num"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 1,
+        "x": 1375.7144222259521,
+        "y": 1122.479917049408,
+        "wires": [
+            [
+                "955c30d9.7978a"
+            ]
+        ]
+    },
+    {
+        "id": "955c30d9.7978a",
+        "type": "change",
+        "z": "ccf23d5e.abebd",
+        "name": "+1 minute",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload + 1",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1537.5000953674316,
+        "y": 1126.7656807899475,
+        "wires": [
+            [
+                "ce9b3cb0.6d1db",
+                "c097136d.3c8e6"
+            ]
+        ]
+    },
+    {
+        "id": "4a840779.0c5048",
+        "type": "link out",
+        "z": "ccf23d5e.abebd",
+        "name": "decremented time",
+        "links": [
+            "cec0b23b.fc1b8"
+        ],
+        "x": 1752.5001220703125,
+        "y": 1205.3370022773743,
+        "wires": []
+    },
+    {
+        "id": "cec0b23b.fc1b8",
+        "type": "link in",
+        "z": "ccf23d5e.abebd",
+        "name": "check time left",
+        "links": [
+            "4a840779.0c5048"
+        ],
+        "x": 1318.2144317626953,
+        "y": 1188.1941466331482,
+        "wires": [
+            [
+                "b2e5ff45.1a9de"
+            ]
+        ]
+    },
+    {
+        "id": "ce9b3cb0.6d1db",
+        "type": "delay",
+        "z": "ccf23d5e.abebd",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "1",
+        "timeoutUnits": "minutes",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 1638.5001220703125,
+        "y": 1185.3370022773743,
+        "wires": [
+            [
+                "4a840779.0c5048"
+            ]
+        ]
+    },
+    {
+        "id": "12c32e12.ddf4a2",
+        "type": "change",
+        "z": "ccf23d5e.abebd",
+        "name": "pause / reset",
+        "rules": [
+            {
+                "t": "set",
+                "p": "reset",
+                "pt": "msg",
+                "to": "true",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1467.5001220703125,
+        "y": 1225.3370022773743,
+        "wires": [
+            [
+                "ce9b3cb0.6d1db"
+            ]
+        ]
+    },
+    {
+        "id": "9d5fe188.17a7c",
+        "type": "change",
+        "z": "ccf23d5e.abebd",
+        "name": "resume / delay",
+        "rules": [
+            {
+                "t": "set",
+                "p": "delay",
+                "pt": "msg",
+                "to": "1",
+                "tot": "num"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1477.5001220703125,
+        "y": 1265.3370022773743,
+        "wires": [
+            [
+                "ce9b3cb0.6d1db"
+            ]
+        ]
+    },
+    {
+        "id": "c097136d.3c8e6",
+        "type": "change",
+        "z": "ccf23d5e.abebd",
+        "name": "Total Break Time Output to Flow Variable",
+        "rules": [
+            {
+                "t": "set",
+                "p": "accumulated_break_time",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "total_break_time_used",
+                "pt": "flow",
+                "to": "accumulated_break_time",
+                "tot": "flow"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1815.7858276367188,
+        "y": 1144.69420003891,
+        "wires": [
+            [
+                "c770c0c2.56144"
+            ]
+        ]
+    },
+    {
+        "id": "c770c0c2.56144",
+        "type": "debug",
+        "z": "ccf23d5e.abebd",
+        "name": "",
+        "active": false,
+        "console": "false",
+        "complete": "false",
+        "x": 2044.9287185668945,
+        "y": 1276.3370909690857,
+        "wires": []
+    },
+    {
+        "id": "a5a2ad41.d557f",
+        "type": "function",
+        "z": "ccf23d5e.abebd",
+        "name": "Break Count Up Timer",
+        "func": "var session_running = flow.get(\"ce525_session_running\");\nvar session_break = (msg.payload.CE525.Break);\nvar break_count_up_started = flow.get(\"break_count_up_started\")\n\n\nif (session_running === true && session_break === true  && break_count_up_started === false)\n{\n    var break_start_count_timer = {payload: 0};\n    flow.set(\"break_count_up_started\",true);\n    return [break_start_count_timer,null];\n    \n} else if (session_running === true && session_break === true  && break_count_up_started === true) {\n    var accumulated_break_time = flow.get(\"accumulated_break_time\");\n    return [null, {payload: accumulated_break_time}];\n    \n} else {\n    return [null,null];\n}",
+        "outputs": "2",
+        "noerr": 0,
+        "x": 980.1786994934082,
+        "y": 1132.142626285553,
+        "wires": [
+            [
+                "b2e5ff45.1a9de"
+            ],
+            [
+                "9d5fe188.17a7c"
+            ]
+        ]
+    },
+    {
+        "id": "d7b4d9f0.169c28",
+        "type": "config",
+        "z": "ccf23d5e.abebd",
+        "name": "Counters",
+        "properties": [
+            {
+                "p": "break_count_up_started",
+                "pt": "flow",
+                "to": "false",
+                "tot": "bool"
+            },
+            {
+                "p": "maint_count_up_started",
+                "pt": "flow",
+                "to": "false",
+                "tot": "bool"
+            }
+        ],
+        "active": true,
+        "x": 961.4286956787109,
+        "y": 1078.392629146576,
+        "wires": []
+    },
+    {
+        "id": "bf4d8968.15d9a8",
+        "type": "function",
+        "z": "ccf23d5e.abebd",
+        "name": "Break Count Up Timer Pause",
+        "func": "var session_running = flow.get(\"ce525_session_running\");\nvar session_break = (msg.payload.CE525.Break);\n\n\nif (session_running === true && session_break === false)\n{\n    var session_break = {payload: true };\n    return session_break;\n} else {\n    return null;\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1008.9286956787109,
+        "y": 1193.3926062583923,
+        "wires": [
+            [
+                "12c32e12.ddf4a2"
+            ]
+        ]
+    },
+    {
+        "id": "2f503b75.3b6c04",
+        "type": "link out",
+        "z": "ccf23d5e.abebd",
+        "name": "Out to Counter Resets",
+        "links": [
+            "25b1edd8.d0de72",
+            "fc8ab384.ef242"
+        ],
+        "x": 414.2857151031494,
+        "y": 458.5714168548584,
+        "wires": []
+    },
+    {
+        "id": "25b1edd8.d0de72",
+        "type": "link in",
+        "z": "ccf23d5e.abebd",
+        "name": "In from Counter Resets",
+        "links": [
+            "2f503b75.3b6c04"
+        ],
+        "x": 1193.7501125335693,
+        "y": 1268.571171283722,
+        "wires": [
+            [
+                "12c32e12.ddf4a2",
+                "ad51ef84.6f071"
+            ]
+        ]
+    },
+    {
+        "id": "ad51ef84.6f071",
+        "type": "switch",
+        "z": "ccf23d5e.abebd",
+        "name": "time left?",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "gt",
+                "v": "-1",
+                "vt": "num"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 1,
+        "x": 1399.1072311401367,
+        "y": 1351.0713329315186,
+        "wires": [
+            [
+                "99b8f856.f7bf78"
+            ]
+        ]
+    },
+    {
+        "id": "99b8f856.f7bf78",
+        "type": "change",
+        "z": "ccf23d5e.abebd",
+        "name": "+1 minute",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload + 1",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1562.3214721679688,
+        "y": 1346.785569190979,
+        "wires": [
+            [
+                "cdc1e00c.140a",
+                "f8a178dd.6830c8"
+            ]
+        ]
+    },
+    {
+        "id": "bb41c388.d1ce5",
+        "type": "link out",
+        "z": "ccf23d5e.abebd",
+        "name": "decremented time",
+        "links": [
+            "b4bdfba1.349158"
+        ],
+        "x": 1684.464454650879,
+        "y": 1505.3570532798767,
+        "wires": []
+    },
+    {
+        "id": "b4bdfba1.349158",
+        "type": "link in",
+        "z": "ccf23d5e.abebd",
+        "name": "check time left",
+        "links": [
+            "bb41c388.d1ce5"
+        ],
+        "x": 1277.3215408325195,
+        "y": 1389.6427812576294,
+        "wires": [
+            [
+                "ad51ef84.6f071"
+            ]
+        ]
+    },
+    {
+        "id": "cdc1e00c.140a",
+        "type": "delay",
+        "z": "ccf23d5e.abebd",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "1",
+        "timeoutUnits": "minutes",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 1707.6072044372559,
+        "y": 1413.9285125732422,
+        "wires": [
+            [
+                "bb41c388.d1ce5"
+            ]
+        ]
+    },
+    {
+        "id": "7c1bcdbf.4ddbe4",
+        "type": "change",
+        "z": "ccf23d5e.abebd",
+        "name": "pause / reset",
+        "rules": [
+            {
+                "t": "set",
+                "p": "reset",
+                "pt": "msg",
+                "to": "true",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1433.7500839233398,
+        "y": 1409.6427459716797,
+        "wires": [
+            [
+                "cdc1e00c.140a"
+            ]
+        ]
+    },
+    {
+        "id": "2358272e.4a7058",
+        "type": "change",
+        "z": "ccf23d5e.abebd",
+        "name": "resume / delay",
+        "rules": [
+            {
+                "t": "set",
+                "p": "delay",
+                "pt": "msg",
+                "to": "1",
+                "tot": "num"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1443.7500839233398,
+        "y": 1449.6427459716797,
+        "wires": [
+            [
+                "cdc1e00c.140a"
+            ]
+        ]
+    },
+    {
+        "id": "f8a178dd.6830c8",
+        "type": "change",
+        "z": "ccf23d5e.abebd",
+        "name": "Total Maint TIme Output to Flow Variable",
+        "rules": [
+            {
+                "t": "set",
+                "p": "accumulated_maint_time",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "total_maint_time_used",
+                "pt": "flow",
+                "to": "accumulated_maint_time",
+                "tot": "flow"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1856.321517944336,
+        "y": 1341.8571033477783,
+        "wires": [
+            [
+                "7d3ab4d8.87f45c"
+            ]
+        ]
+    },
+    {
+        "id": "7d3ab4d8.87f45c",
+        "type": "debug",
+        "z": "ccf23d5e.abebd",
+        "name": "",
+        "active": false,
+        "console": "false",
+        "complete": "false",
+        "x": 2054.0358276367188,
+        "y": 1419.2141580581665,
+        "wires": []
+    },
+    {
+        "id": "d7ad8f66.1d2ed",
+        "type": "function",
+        "z": "ccf23d5e.abebd",
+        "name": "Maint Count Up Timer",
+        "func": "var session_running = flow.get(\"ce525_session_running\");\nvar session_maint = (msg.payload.CE525.Maint);\nvar maint_count_up_started = flow.get(\"maint_count_up_started\")\n\n\nif (session_running === true && session_maint === true  && maint_count_up_started === false)\n{\n    var maint_start_count_timer = {payload: 0};\n    flow.set(\"maint_count_up_started\",true);\n    return [maint_start_count_timer,null];\n    \n} else if (session_running === true && session_maint === true  && maint_count_up_started === true) {\n    var accumulated_maint_time = flow.get(\"accumulated_maint_time\");\n    return [null, {payload: accumulated_maint_time}];\n    \n} else {\n    return [null,null];\n}",
+        "outputs": "2",
+        "noerr": 0,
+        "x": 991.7858200073242,
+        "y": 1300.733943939209,
+        "wires": [
+            [
+                "ad51ef84.6f071"
+            ],
+            [
+                "2358272e.4a7058"
+            ]
+        ]
+    },
+    {
+        "id": "90a01cb9.e4c9a",
+        "type": "function",
+        "z": "ccf23d5e.abebd",
+        "name": "Maint Count Up Timer Pause",
+        "func": "var session_running = flow.get(\"ce525_session_running\");\nvar session_maint = (msg.payload.CE525.Maint);\n\n\nif (session_running === true && session_maint === false)\n{\n    var session_maint = {payload: true };\n    return session_maint;\n} else {\n    return null;\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1022.8572158813477,
+        "y": 1347.8769011497498,
+        "wires": [
+            [
+                "7c1bcdbf.4ddbe4"
+            ]
+        ]
+    },
+    {
+        "id": "7b689599.8cd09c",
+        "type": "comment",
+        "z": "ccf23d5e.abebd",
+        "name": "Total Timers for Maint & Breaks",
+        "info": "",
+        "x": 1205.7144099644252,
+        "y": 1045.7140348298208,
+        "wires": []
+    },
+    {
+        "id": "5d964c3e.4d0344",
+        "type": "link in",
+        "z": "ccf23d5e.abebd",
+        "name": "",
+        "links": [
+            "a6abecfc.d6bee"
+        ],
+        "x": 772.8572368621826,
+        "y": 1065.7140774726868,
+        "wires": [
+            [
+                "a5a2ad41.d557f",
+                "bf4d8968.15d9a8",
+                "d7ad8f66.1d2ed",
+                "90a01cb9.e4c9a"
+            ]
+        ]
+    },
+    {
+        "id": "599483.cfaf5b7c",
+        "type": "ui_template",
+        "z": "ccf23d5e.abebd",
+        "group": "10489166.7908ff",
+        "name": "Sim Cab Gauge",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "format": "<script src=\"/myjs/steelseries/tween-min.js\"></script>\n<script src=\"/myjs/steelseries/steelseries-min.js\"></script>\n<script>\nvar radial4;\n    (function(scope){ \n        scope.$watch('msg', function(msg) {\n           if (typeof(msg.value) != \"undefined\") radial4.setValueAnimated(msg.value);\n           if (typeof(msg.threshold) != \"undefined\") radial4.setThreshold(msg.threshold);\n           if (typeof(msg.maxvalue) != \"undefined\")radial4.setMaxValue(msg.maxvalue);\n           if (typeof(msg.userLed) != \"undefined\") radial4.setUserLedOnOff(msg.userLed);\n        });\n    })(scope);\n\n    var sections = [steelseries.Section(-40, 5, 'rgba(220, 0, 0, 0.3)'),\n                        steelseries.Section(5, 10, 'rgba(255, 255, 0, 0.5)'),\n                        steelseries.Section(10, 240, 'rgba(0, 255, 0, 0.3)') ],\n\n            // Define one area\n    areas = [steelseries.Section(-40, 5, 'rgba(220, 0, 0, 0.3)')],\n\n    radial4 = new steelseries.Radial('canvasRadial4', {\n            gaugeType: steelseries.GaugeType.TYPE4,\n            size: 292,\n            section: sections,\n            //MaxValue: 240,\n            area: areas,\n            lcdDecimals: 0,\n            minValue: -30,\n            titleString: \"Sim Time Remaining\",\n            unitString: \"Minutes\",\n            threshold: 10,\n            thresholdRising: false,\n            userLedVisible: true,\n            userLed: true,\n            useOdometer: false,\n            lcdVisible: true,\n            trendVisible: false,\n        });\n                        \n    radial4.setFrameDesign(steelseries.FrameDesign.BLACK_METAL);\n    radial4.setBackgroundColor(steelseries.BackgroundColor.LIGHT_GRAY);\n    radial4.setValueAnimated(0);\n    radial4.setThreshold(10);\n    radial4.blinkUserLed(0);\n\n</script>\n\n<canvas id=\"canvasRadial4\" width=\"401\" height=\"401\"></canvas>\n\n\n",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "templateScope": "local",
+        "x": 1805.714096069336,
+        "y": 449.99999237060547,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "1c0c2a1e.ae2fa6",
+        "type": "ui_template",
+        "z": "ccf23d5e.abebd",
+        "group": "1e768402.eb9b3c",
+        "name": "Sim Bay Gauge",
+        "order": 0,
+        "width": "0",
+        "height": "0",
+        "format": "<script src=\"/myjs/steelseries/tween-min.js\"></script>\n<script src=\"/myjs/steelseries/steelseries-min.js\"></script>\n<script>\nvar radial4;\n    (function(scope){ \n        scope.$watch('msg', function(msg) {\n           if (typeof(msg.value) != \"undefined\") radial4.setValueAnimated(msg.value);\n           if (typeof(msg.threshold) != \"undefined\") radial4.setThreshold(msg.threshold);\n           if (typeof(msg.maxvalue) != \"undefined\")radial4.setMaxValue(msg.maxvalue);\n           if (typeof(msg.userLed) != \"undefined\") radial4.setUserLedOnOff(msg.userLed);\n        });\n    })(scope);\n\n    var sections = [steelseries.Section(-40, 5, 'rgba(220, 0, 0, 0.3)'),\n                        steelseries.Section(5, 10, 'rgba(255, 255, 0, 0.5)'),\n                        steelseries.Section(10, 240, 'rgba(0, 255, 0, 0.3)') ],\n\n            // Define one area\n    areas = [steelseries.Section(-40, 5, 'rgba(220, 0, 0, 0.3)')],\n\n    radial4 = new steelseries.Radial('canvasRadial4', {\n            gaugeType: steelseries.GaugeType.TYPE4,\n            size: 292,\n            section: sections,\n            //MaxValue: 240,\n            area: areas,\n            lcdDecimals: 0,\n            minValue: -30,\n            titleString: \"Sim Time Remaining\",\n            unitString: \"Minutes\",\n            threshold: 10,\n            thresholdRising: false,\n            userLedVisible: true,\n            userLed: true,\n            useOdometer: false,\n            lcdVisible: true,\n            trendVisible: false,\n        });\n                        \n    radial4.setFrameDesign(steelseries.FrameDesign.BLACK_METAL);\n    radial4.setBackgroundColor(steelseries.BackgroundColor.LIGHT_GRAY);\n    radial4.setValueAnimated(0);\n    radial4.setThreshold(10);\n    radial4.blinkUserLed(0);\n\n</script>\n\n<canvas id=\"canvasRadial4\" width=\"401\" height=\"401\"></canvas>\n\n\n",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "templateScope": "local",
+        "x": 1810.0000228881836,
+        "y": 504.285737991333,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "18cb3639.9c927a",
+        "type": "debug",
+        "z": "ccf23d5e.abebd",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "true",
+        "x": 1862.8570938110352,
+        "y": 288.5714235305786,
+        "wires": []
+    },
+    {
+        "id": "ec394520.8c13e8",
+        "type": "ui_group",
+        "z": "",
+        "name": "Cessna CJ1",
+        "tab": "7b0178e4.179578",
+        "order": 1,
+        "disp": false,
+        "width": "6"
+    },
+    {
+        "id": "16df6755.0155b9",
+        "type": "ui_group",
+        "z": "",
+        "name": "Logging",
+        "tab": "8dd56678.280db8",
+        "order": 2,
+        "disp": true,
+        "width": "6"
+    },
+    {
+        "id": "2c662e9b.76e672",
+        "type": "ui_group",
+        "z": "",
+        "name": "CE525 Time Tracking",
+        "tab": "8dd56678.280db8",
+        "order": 1,
+        "disp": true,
+        "width": "6"
+    },
+    {
+        "id": "5b0875de.d408bc",
+        "type": "twilio-api",
+        "z": "",
+        "name": "",
+        "sid": "put_your_twillo_acct_info_here",
+        "from": "000-000-0000"
+    },
+    {
+        "id": "6254174c.23f288",
+        "type": "pushbullet-config",
+        "z": "",
+        "name": "RJS_PB_ACCOUNT"
+    },
+    {
+        "id": "10489166.7908ff",
+        "type": "ui_group",
+        "z": "",
+        "name": "CE525 Cab Gauge",
+        "tab": "8f5b3360.771b4",
+        "disp": true,
+        "width": "6"
+    },
+    {
+        "id": "1e768402.eb9b3c",
+        "type": "ui_group",
+        "z": "",
+        "name": "Gauge",
+        "tab": "7b0178e4.179578",
+        "order": 2,
+        "disp": false,
+        "width": "6"
+    },
+    {
+        "id": "7b0178e4.179578",
+        "type": "ui_tab",
+        "z": "",
+        "name": "CE525 Sim Bay",
+        "icon": "fa-plane",
+        "order": 4
+    },
+    {
+        "id": "8dd56678.280db8",
+        "type": "ui_tab",
+        "z": "",
+        "name": "525 Tech View",
+        "icon": "fa-plane"
+    },
+    {
+        "id": "8f5b3360.771b4",
+        "type": "ui_tab",
+        "z": "",
+        "name": "525 Cab Gauge",
+        "icon": "dashboard",
+        "order": 3
+    }
+]
