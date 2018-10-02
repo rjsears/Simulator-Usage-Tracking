@@ -7,6 +7,8 @@ This is a node-red based flow that allows you to track simulator (or anything ac
 
 Once the session is completed, all of the session information is written to a flat file for storage.
 
+![alt tag](https://github.com/rjsears/Simulator-Usage-Tracking/blob/master/images/sim_tracking_node-red.png?raw=true)
+
 
 #TODO
 Add backend mysql/influs/?? time and session tracking. 
