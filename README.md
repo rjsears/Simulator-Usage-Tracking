@@ -14,25 +14,23 @@ To install, simply open your node-red interface and import the json file. Make n
 The only real requirement is the steelseries gauges by Gerrit Grunwald & Mark Crossley. If you want notifications, then you will also need the PushBullet or Twillio Node-Red nodes. <br>
 For the steelseries gaugues, download them and untar them at a location that your node-red can access (typically ~user/.node-red/static) and then point to that directory in your widgets:<br>
 
-- <script src="/myjs/steelseries/tween-min.js"></script>
-- <script src="/myjs/steelseries/steelseries-min.js"></script>
-    
-    <script src="/myjs/steelseries/tween-min.js"></script>
-    <script src="/myjs/steelseries/steelseries-min.js"></script>
-    <script>
-    var radial4;
-        (function(scope){ 
-            scope.$watch('msg', function(msg) {
-               if (typeof(msg.value) != "undefined") radial4.setValueAnimated(msg.value);
-               if (typeof(msg.threshold) != "undefined") radial4.setThreshold(msg.threshold);
-               if (typeof(msg.maxvalue) != "undefined")radial4.setMaxValue(msg.maxvalue);
-               if (typeof(msg.userLed) != "undefined") radial4.setUserLedOnOff(msg.userLed);
-            });
-        })(scope);
+'''
+<script src="/myjs/steelseries/tween-min.js"></script>
+<script src="/myjs/steelseries/steelseries-min.js"></script>
+<script>
+var radial4;
+    (function(scope){ 
+        scope.$watch('msg', function(msg) {
+           if (typeof(msg.value) != "undefined") radial4.setValueAnimated(msg.value);
+           if (typeof(msg.threshold) != "undefined") radial4.setThreshold(msg.threshold);
+           if (typeof(msg.maxvalue) != "undefined")radial4.setMaxValue(msg.maxvalue);
+           if (typeof(msg.userLed) != "undefined") radial4.setUserLedOnOff(msg.userLed);
+        });
+    })(scope);
 
-        var sections = [steelseries.Section(-40, 5, 'rgba(220, 0, 0, 0.3)'),
-                            steelseries.Section(5, 10, 'rgba(255, 255, 0, 0.5)'),
-                            steelseries.Section(10, 240, 'rgba(0, 255, 0, 0.3)') ],
+    var sections = [steelseries.Section(-40, 5, 'rgba(220, 0, 0, 0.3)'),
+                        steelseries.Section(5, 10, 'rgba(255, 255, 0, 0.5)'),
+                        steelseries.Section(10, 240, 'rgba(0, 255, 0, 0.3)') ],
 
             // Define one area
     areas = [steelseries.Section(-40, 5, 'rgba(220, 0, 0, 0.3)')],
@@ -65,7 +63,7 @@ For the steelseries gaugues, download them and untar them at a location that you
 </script>
 
 <canvas id="canvasRadial4" width="401" height="401"></canvas>
-</code>
+```
 
 # Screen Shots
 
