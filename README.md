@@ -79,6 +79,11 @@ var radial4;
 
 <br><br>
 
+# In Use
+We use a small 7" touchscreen powered by a Raspberry Pi to run the system:
+![alt tag](https://github.com/rjsears/Simulator-Usage-Tracking/blob/master/images/raspberry_pi_touchscreen.png?raw=true)<br>
+
+
 
 ## TODO
 * Add MySQL backen to track usage
