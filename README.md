@@ -18,9 +18,9 @@ For the steelseries gaugues, download them and untar them at a location that you
 - <script src="/myjs/steelseries/steelseries-min.js"></script>
 <code>
   <script src="/myjs/steelseries/tween-min.js"></script>
-<script src="/myjs/steelseries/steelseries-min.js"></script>
-<script>
-var radial4;
+  <script src="/myjs/steelseries/steelseries-min.js"></script>
+  <script>
+  var radial4;
     (function(scope){ 
         scope.$watch('msg', function(msg) {
            if (typeof(msg.value) != "undefined") radial4.setValueAnimated(msg.value);
