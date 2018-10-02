@@ -100,4 +100,5 @@ This project is licensed under the MIT License - see the MIT License for details
 ## Acknowledgments
 
 * [Gerrit Grunwald, Mark Crossley](https://github.com/HanSolo/SteelSeries-Canvas) - Steel Series Gauges
+* Node-RED Google Group for all the help with my questions!
 * My amazing family that puts up with all of my coding projects!
