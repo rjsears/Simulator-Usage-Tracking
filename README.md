@@ -91,7 +91,7 @@ We use a small 7" touchscreen powered by a Raspberry Pi to run the system:
 
 ## Authors
 
-* **Richard J. Sears** - *richard@sears.net* - [The RS Technical Group, Inc.](http://github.com/rjsears)
+* **Richard J. Sears** - *richardjsears@gmail.com* - [The RS Technical Group, Inc.](http://github.com/rjsears)
 
 ## License
 
